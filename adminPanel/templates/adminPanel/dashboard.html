@@ -1,0 +1,129 @@
+{% extends 'adminPanel/mainPanel.html' %}
+
+{% block mainContent %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'styles/dashboard.css' %}" />
+
+<div class="mainBox-1">
+    <div class="total-users-box">
+        <i class="fa-solid fa-users"></i>
+        <div>
+            <h3>Total Users</h3>
+            <h1>{{ user_count }}</h1>
+        </div>
+    </div>
+    <div class="total-rooms-box">
+        <i class="fa-solid fa-book"></i>
+        <div>
+            <h3>Total Rooms</h3>
+            <h1>{{ room_count }}</h1>
+        </div>
+    </div>
+    <div class="total-topics-box">
+        <i class="fa-solid fa-tags"></i>
+        <div>
+            <h3>Total Topics</h3>
+            <h1>{{ topic_count }}</h1>
+        </div>
+    </div>
+    <div class="total-messages-box">
+        <i class="fa-solid fa-message"></i>
+        <div>
+            <h3>Messages</h3>
+            <h1>{{ message_count }}</h1>
+        </div>
+    </div>
+</div>
+
+<div class="db-management">
+    <div class="db-data">
+        <div class="db-status">
+            <i class="fa-solid fa-server"></i>
+            <div class="status">
+                <h2>Database Status: {% if db_status %} <span class="db_success">OK</span> {% else %} Not OK {% endif %}</h2>
+                <p>Database is Working Properly</p>
+            </div>
+        </div>
+        <div class="db-size">
+            <i class="fa-solid fa-hard-drive"></i>
+            <div class="status">
+                <h2>Sorage: <span class="db_success">{{ db_size|floatformat:"2" }} MB</span></h2>
+                <p>Enough Storage is Available</p>
+            </div>
+        </div>
+        <div class="total-tables">
+            <i class="fa-solid fa-table"></i>
+            <div class="status">
+                <h2>Total Tables: <span class="db_success">{{ table_count }}</span></h2>
+                <p>All Tables Working Properly</p>
+            </div>
+        </div>
+    </div>
+    <div class="db-tables">
+        <div class="box-head">
+            <h1>Database Tables</h1>
+        </div>
+        <div class="box-content">
+            <ol class="list-group list-group-numbered">
+                {% for table_name, size in tables_list %}
+                <li class="list-group-item d-flex justify-content-between align-items-start bg-transparent">
+                  <div class="ms-2 me-auto">
+                    <div>{{table_name}}</div>
+                  </div>
+                  <span class="badge">Size: {{ size|floatformat:"2" }} KB</span>
+                </li>
+                {% endfor %}
+              </ol>
+        </div>
+    </div>
+</div>
+
+<div class="mainBox-2">
+    <div class="popular-rooms">
+        <div class="box-head">
+            <h1>Popular Rooms</h1>
+        </div>
+    <div class="box-content">
+        <ol class="list-group list-group-numbered">
+            {% for room in popularRooms %}
+            <li class="list-group-item d-flex justify-content-between align-items-start bg-transparent">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">{{ room.name }}</div>
+                <span class="host-name">@{{ room.host.username }}</span>
+              </div>
+              <span class="badge me-2">{{ room.topic }}</span>
+              <span class="badge">{{ room.participants.count }} Joined</span>
+              <!-- <button class="btn btn-sm btn-primary">View</button> -->
+            </li>
+            {% endfor %}
+          </ol>
+    </div>        
+    </div>
+    <div class="team-available">
+        <div class="box-head">
+            <h1>Teams</h1>
+        </div>
+        <div class="box-content">
+            <ol class="list-group list-group-numbered">
+                {% for user in staff %}
+                <li class="list-group-item d-flex justify-content-between align-items-start bg-transparent">
+                  <div class="ms-3 me-auto d-flex align-items-center gap-2 m-0">
+                        <img src="{{ user.avatar.url }}" alt="">
+                    <div>
+                        <div class="fw-bold">@{{ user.username }}</div>
+                        <span class="host-name">{{ user.email }}</span>
+                    </div>
+                  </div>
+                  <span class="badge me-2 staff-badge">{% if user.is_staff %} Staff {% endif %}</span>
+                  <!-- <button class="btn btn-sm btn-primary">View</button> -->
+                </li>
+                {% endfor %}
+              </ol>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

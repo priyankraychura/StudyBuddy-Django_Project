@@ -1,0 +1,38 @@
+.alert{
+    width: auto;
+    height: 40px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    font-size: 16px;
+    transition: opacity 0.3s ease;
+}
+.alert-error{
+    background-color: #2c0b0ebb;
+    color: #EA867E;
+}
+.alert-success{
+    background-color: #051b1192;
+    color: #75B798;
+}
+.alert .fa-circle-info{
+    margin-right: 10px;
+}
+
+.isAdmin_checkbox{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.isAdmin_checkbox input{
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+.isAdmin_checkbox label{
+    cursor: pointer;
+}
+
+

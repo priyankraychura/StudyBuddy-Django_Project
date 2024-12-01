@@ -1,0 +1,148 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.container-0{
+    width: 800px;
+    height: 510px;
+    box-shadow: #0000001A 1px 1px 6px 3px;
+    background-color: #3F4156;
+    /* margin-top: 100px; */
+    border-radius: 10px;
+}
+.container-0 .insertHeader{
+    background-color: #696D97;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+}
+.container-0 .insertHeader i{
+    color: #71C6DD;
+    cursor: pointer;
+}
+.container-0 .insertHeader h1{
+    color: #E5E5E5;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: -1px;
+}
+.container-0 .form{
+    padding: 20px;
+    background-color: #3F4156;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.form .form-label{
+    font-size: 15px;
+    color: #B2BDBD;
+}
+.form .form-check-label{
+    font-size: 15px;
+    color: #B2BDBD;
+}
+.form .form-check-input{
+    height: auto;
+    margin-top: 12px;
+}
+.form .switches{
+    margin-top: 25px;
+}
+.form :where(input, textarea){
+    background-color: transparent;
+    padding: 10px;
+    outline: none;
+    height: 45px;
+    border: 0.8px solid #696D97;
+}
+.form :where(input, textarea):focus{
+    color: #E5E5E5;
+    border: 0.8px solid #71C6DD;
+    background-color: transparent;
+    outline: none;
+}
+.form textarea{
+    height: 100px;
+    resize: none;
+}
+.buttons{
+    display: flex;
+    gap: 30px;
+    margin-top: 35px;
+    align-items: center;
+    justify-content: end;
+}
+.buttons .btn{
+    outline: none;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: #00000026 1px 1px 3px 1px;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+.buttons .cancel{
+    background-color: #696D97;
+    color: #E5E5E5;
+}
+.buttons .create{
+    background-color: #71C6DD;
+    color: #3F4156;
+}
+.modal-header{
+    color: #E5E5E5;
+    text-transform: uppercase;
+    background-color: #696D97;
+    display: flex;
+	gap: 10px;
+	padding: 15px;
+}
+.modal-header .modal-title{
+    font-size: 16px;
+    font-weight: 500;
+}
+.modal-header i{
+    color: #71C6DD;
+}
+.modal-body{
+    padding: 20px;
+    background-color: #3F4156;
+}
+.modal-footer{
+    background-color: #3F4156;
+    border-top: none;
+    padding-top: 0;
+    padding-right: 20px;
+}
+.modal-body .form input{
+    background-color: transparent;
+    padding: 10px;
+    outline: none;
+    height: 45px;
+    border: 0.8px solid #696D97;
+}
+.modal-body .form input:focus{
+    color: #E5E5E5;
+    border: 0.8px solid #71C6DD;
+    background-color: transparent;
+    outline: none;
+}
+.modal-body .buttons{
+    gap: 10px;
+    margin-top: 0;
+}
+.modal-footer .buttons{
+    gap: 10px;
+    margin-top: 0;
+}
+.buttons .insertTopicSubmit{
+    background-color: #71C6DD;
+    color: #3F4156;
+}

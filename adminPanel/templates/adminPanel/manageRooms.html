@@ -1,0 +1,138 @@
+
+{% extends 'adminPanel/mainPanel.html' %}
+
+{% block mainContent %}
+
+{% load static %}
+
+<style>
+  .form-control:disabled{
+    background-color: #3F4156;
+    color: #E5E5E5;
+    border: none;
+    }
+  .form-control{
+      background-color: #51546E;
+      color: #E5E5E5;
+  }
+  .form-control:focus{
+      background-color: #2D2D39;
+      color: #E5E5E5;
+  } 
+    .roomTopicInput{
+      width: 100px;
+    }
+    table{
+        
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: px;
+        overflow: hidden;
+    }
+    .table{
+        --bs-table-bg: #3F4156;
+    }
+  </style>
+
+  <div class="above-table mb-3">
+    <div class="table-heading">
+        <i class="fa-solid fa-book"></i>
+        <h1>Rooms Table</h1>    
+    </div>
+    <div class="data-filters">
+        <div class="dropdown filter">
+            <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-filter"></i>
+                Filter Users
+            </button>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="?q={{ request.GET.q }}">All</a></li>
+            <li><a class="dropdown-item" href="?likes=True">No likes</a></li>
+            <li><a class="dropdown-item" href="?participents=True">No participants</a></li>
+            </ul>
+        </div>
+        <div class="dropdown filter">
+            <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-arrow-down-short-wide"></i>
+                <!-- Order by -->
+            </button>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="?q={{ request.GET.q }}">By id</a></li>
+            <li><a class="dropdown-item" href="?order=name">By room name</a></li>
+            <li><a class="dropdown-item" href="?order=host">By host</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<table class="table rounded">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Room Name</th>
+        <th scope="col">Topic</th>
+        <th scope="col">Description</th>
+        <th scope="col">List of Participants</th>
+        <th scope="col">Room Host</th>
+        <!-- <th scope="col">Created</th>
+        <th scope="col">Updated</th> -->
+        <th scope="col">Likes</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for room in rooms %}
+      <tr>
+        <form action="{% url 'updateRoom' room.id %}" id="{{ room.id }}" method="POST" class="d-inline">
+          {% csrf_token %}
+          <th scope="row" class="text-light">{{ room.id }}</th>
+          <td><input type="text" name="name" value="{{ room.name }}"
+              class="myInput form-control form-control-sm roomNameInput" autocomplete="off" disabled></td>
+          <td><input type="text" name="topic" value="{% if room.topic.name %}{{room.topic.name}}{% else %}Deleted{% endif %}"
+              class="myInput form-control form-control-sm roomTopicInput {% if not room.topic.name %} text-warning {% endif %}" autocomplete="off" disabled></td>
+          <td><input type="text" name="description" value="{{ room.description }}"
+              class="myInput form-control form-control-sm roomDesInput" autocomplete="off" disabled></td>
+          <td>
+            <p class="d-inline-flex gap-1 p-0 m-0">
+              <a class="btn btn-sm btn-secondary" data-bs-toggle="collapse" href="#collapseExample-{{ room.id }}"
+                role="button" aria-expanded="false" aria-controls="collapseExample">
+                Show
+              </a>
+              <span class="text-light px-3">{{ room.participants.count }}</span>
+            </p>
+            <table>
+              {% for member in room.participants.all %}
+              <tr>
+                <td>
+                  <div class="collapse mt-2" id="collapseExample-{{ room.id }}" style="color: #6AB7CD;">
+                    <!-- <div class="card card-title border-0" style="display: inline-block; padding: 2px 5px;"> -->
+                        <i class="fa-solid fa-user"></i> {{ member.username }}
+                    <!-- </div> -->
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </td>
+          <td class="text-light">@{{ room.host.username }}</td>
+          <!-- <td>{{ room.created }}</td>
+          <td>{{ room.updated }}</td> -->
+          <td class="text-light">{{ room.likes.count }}</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-primary enableBtn">Update</button>
+            <!-- <button type="submit" class="btn btn-sm btn-primary saveBtn" style="display: none;">Save</button> -->
+            <button type="button" class="btn btn-sm btn-primary saveBtn update-form" data-target="{{ room.id }}" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: none;">Save</button>
+            <button type="button" class="btn btn-sm btn-danger cancelBtn" style="display: none;">Cancel</button>
+            <a href="{% url 'room' room.id %}" target="_blank" class="btn btn-sm btn-success viewBtn">View</a>
+            <!-- <a href="{% url 'deleteRoom' room.id %}" class="btn btn-sm btn-danger deleteBtn">Delete</a> -->
+            <a type="button" class="btn btn-sm btn-danger deleteBtn" data-url="{% url 'deleteRoom' room.id %}" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+          </td>
+        </form>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+  <script src="{% static 'js/admin.js' %}"></script>
+{% endblock %}

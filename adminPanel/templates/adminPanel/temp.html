@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Topics and Rooms</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .topic-card {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+        }
+
+        .accordion-button {
+            background-color: #343a40;
+            color: #fff;
+            border-radius: 8px;
+        }
+        .accordion-item:first-of-type>.accordion-header .accordion-button{
+          color: #fff;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #495057;
+          }
+        
+        .accordion-button::after {
+          filter: invert(100%) brightness(200%);
+
+        }
+
+        .accordion-item {
+            border: none;
+        }
+
+        .room-list {
+            margin-top: 10px;
+        }
+
+        .room-list li {
+            list-style-type: none;
+            background-color: #e9ecef;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .room-list li .room-name {
+            font-size: 1rem;
+            color: #495057;
+        }
+
+        .room-list li .room-actions button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+      {% for topic in topics %}
+        <div class="accordion" id="topicsAccordion">
+            <!-- Repeat this block for each topic -->
+            <div class="accordion-item mb-2">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ topic.id }}" aria-expanded="false" aria-controls="collapseOne">
+                        {{ topic.name }}
+                    </button>
+                </h2>
+                <div id="{{ topic.id }}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#topicsAccordion">
+                    <div class="accordion-body">
+                        <div class="d-flex justify-content-end mb-3">
+                            <button class="btn btn-warning btn-sm me-2">Edit Topic</button>
+                            <button class="btn btn-danger btn-sm">Delete Topic</button>
+                        </div>
+                        <ul class="list-unstyled room-list">
+                          {% for room in rooms %}
+                            {% if room.topic.name == topic.name %}
+                              <li>
+                                  <span class="room-name">{{ room.name }}</span>
+                                  <div class="room-actions">
+                                      <button class="btn btn-sm btn-primary">Create Room</button>
+                                  </div>
+                              </li>
+                            {% endif %}
+                          {% endfor %}
+                            <!-- Add more rooms here -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End of topic block -->
+
+            <!-- End of topic block -->
+        </div>
+        {% endfor %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

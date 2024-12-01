@@ -1,0 +1,136 @@
+{% extends 'adminPanel/mainPanel.html' %}
+
+{% block mainContent %}
+
+{% load static %}
+
+<style>
+    .form-control:disabled{
+        background-color: #3F4156;
+        color: #E5E5E5;
+        border: none;
+    }
+    .form-control{
+        background-color: #51546E;
+        color: #E5E5E5;
+    }
+    .form-control:focus{
+        background-color: #2D2D39;
+        color: #E5E5E5;
+    }
+    .nameInput {
+        width: 130px;
+    }
+    .passInput {
+        width: 100px;
+    }
+    .emailInput {
+        width: 205px;
+    }
+    .bioInput {
+        width: 180px;
+    }
+    .activeInput {
+        width: 23px;
+        height: 23px;
+    }
+    .avatar{
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: px;
+        overflow: hidden;
+    }
+
+    .table {
+        --bs-table-bg: #3F4156;
+    }
+</style>
+
+<div class="above-table mb-3">
+    <div class="table-heading">
+        <i class="fa-solid fa-users"></i>
+        <h1>Users Table</h1>    
+    </div>
+    <div class="data-filters">
+        <div class="dropdown filter">
+            <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-filter"></i>
+                Filter Users
+            </button>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="?q={{ request.GET.q }}">All</a></li>
+            <li><a class="dropdown-item" href="?is_active=True">Is Active</a></li>
+            <li><a class="dropdown-item" href="?is_staff=True">Is Staff</a></li>
+            <li><a class="dropdown-item" href="?is_superuser=True">Is Superuser</a></li>
+            </ul>
+        </div>
+        <div class="dropdown filter">
+            <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-arrow-down-short-wide"></i>
+                <!-- Order by -->
+            </button>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="?order=id">By id</a></li>
+            <li><a class="dropdown-item" href="?order=name">By name</a></li>
+            <li><a class="dropdown-item" href="?order=username">By username</a></li>
+            <li><a class="dropdown-item" href="?order=email">By email id</a></li>
+            <li><a class="dropdown-item" href="?order=last_login">By last login</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<table class="table rounded">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Avatar</th>
+            <th scope="col">User Name</th>
+            <!-- <th scope="col">Password</th> -->
+            <th scope="col">Username</th>
+            <th scope="col">Active</th>
+            <th scope="col">Email</th>
+            <!-- <th scope="col">Created</th> -->
+            <th scope="col">Bio</th>
+            <th scope="col">Last Login</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <form action="{% url 'updateUser' user.id %}" id="{{ user.id }}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <th scope="row" class="text-light">{{ user.id }}</th>
+                <td scope="row" class="text-light"><img src="{{ user.avatar.url }}" alt="" class="avatar"></td>
+                <td><input type="text" name="name" value="{{ user.name }}" class="myInput form-control form-control-sm nameInput" disabled></td>
+                <!-- <td><input type="text" name="password" value="{{ user.password }}" class="myInput form-control form-control-sm passInput" disabled></td> -->
+                <td><input type="text" name="username" value="{{ user.username }}" class="myInput form-control form-control-sm nameInput" disabled></td>
+                <td><input class="myInput form-check-input activeInput" name="active" type="checkbox" value="True" id="flexCheckDefault"{% if user.is_active %}checked{% endif %} disabled></td>
+                <td class="text-light"><input type="text" name="email" value="{{ user.email }}" class="myInput form-control form-control-sm emailInput" disabled></td>
+                <!-- <td>{{ room.created }}</td> -->
+                <td><input type="text" name="bio" value="{{ user.bio }}" class="myInput form-control form-control-sm bioInput" disabled></td>
+                <td class="text-light">{% if user.last_login.date %} {{ user.last_login.date }} {% else %} <span class="text-warning">Not Logged in</span> {% endif %}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-primary enableBtn">Update</button>
+                    <!-- <button type="submit" class="btn btn-sm btn-primary saveBtn" >Save</button> -->
+                    <button type="button" class="btn btn-sm btn-primary saveBtn update-form"  data-target="{{ user.id }}" data-bs-toggle="modal" data-bs-target="#updateModal" style="display: none;">Save</button>
+                    <button type="button" class="btn btn-sm btn-danger cancelBtn" style="display: none;">Cancel</button>
+                    <!-- <a href="{% url 'deleteUser' user.id %}" class="btn btn-sm btn-danger deleteBtn">Delete</a> -->
+                    <button type="button" class="btn btn-sm btn-danger deleteBtn" data-url="{% url 'deleteUser' user.id %}" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                </td>
+            </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+<script src="{% static 'js/admin.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'adminPanel/mainPanel.html' %}
+
+{% block mainContent %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'styles/insertRoom.css' %}" />
+
+<div class="container-0 p-0">
+  <div class="insertHeader">
+      <a href="{% url 'manageRooms' %}"><i class="fa-solid fa-arrow-left-long"></i></a>
+      <h1>Create Study Room</h1>
+  </div>
+  <form class="form" action="" method="POST">
+      {% csrf_token %}
+        <div class="mb-3">
+          <label for="formGroupExampleInput2" class="form-label bg-transparent mb-0">Enter a Topic</label>
+          <input type="text" list="topic-list" name="topic" class="form-control shadow-none text-light" id="formGroupExampleInput2" required>
+          <datalist id="topic-list">
+              <select name="" id="room_topic">
+                {% for topic in topics %}
+                  <option value="{{ topic.name }}">{{ topic.name }}</option>
+                {% endfor %}
+              </select>
+            </datalist>
+        </div>
+
+        <div class="mb-3">
+          <label for="formGroupExampleInput" class="form-label bg-transparent mb-0">Room Name</label>
+          <input type="text" name="name" class="form-control shadow-none text-light" id="formGroupExampleInput" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label bg-transparent mb-0">Room Description</label>
+          <textarea name="description" class="form-control shadow-none text-light" id="exampleFormControlTextarea1" rows="3" required></textarea>
+        </div>
+        <div class="buttons">
+          <a type="button" href="{% url 'manageRooms' %}" class="btn btn-danger btn-sm cancel">Cancel</a>
+          <button type="submit" class="btn btn-primary btn-sm create">Submit</>
+        </div>
+  </form>
+</div>
+
+{% endblock %}

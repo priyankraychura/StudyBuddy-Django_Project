@@ -1,0 +1,76 @@
+{% extends 'adminPanel/mainPanel.html' %}
+
+{% block mainContent %}
+
+{% load static %}
+<style>
+    .form .buttons{
+        margin-top: 0;
+    }
+</style>
+
+<link rel="stylesheet" href="{% static 'styles/insertRoom.css' %}" />
+
+<div class="container-0 w-75 p-0">
+    <div class="insertHeader">
+      <a href="{% url 'manageUsers' %}"><i class="fa-solid fa-arrow-left-long"></i></a>
+      <h1>Insert New User</h1>
+    </div>
+    <form class="row g-3 m-0 form" action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+      <div class="col-md-4">
+        <label for="formFile" class="form-label bg-transparent mb-0">Avatar</label>
+        <input class="form-control text-light form-control-md" type="file" name="avatar" id="formFile">
+      </div>
+      <div class="col-md-4">
+        <label for="inputPassword4" class="form-label bg-transparent mb-0">Name</label>
+        <input type="text" name="name" class="form-control text-light" id="inputPassword4" required>
+      </div>
+      <div class="col-md-4">
+        <label for="inputPassword4" class="form-label bg-transparent mb-0">Username</label>
+        <input type="text" name="username" class="form-control text-light" id="inputPassword4" required>
+      </div>
+      <div class="col-12">
+        <label for="inputAddress" class="form-label bg-transparent mb-0">Bio</label>
+        <input type="text" name="bio" class="form-control text-light" id="inputAddress" required>
+      </div>
+      <div class="col-md-4">
+        <label for="inputZip" class="form-label bg-transparent mb-0">Email Id</label>
+        <input type="text" name="email" class="form-control text-light" id="inputZip" required>
+      </div>
+      <div class="col-md-4">
+        <label for="inputCity" class="form-label bg-transparent mb-0">Password</label>
+        <input type="text" name="password" class="form-control text-light" id="inputCity" required>
+      </div>
+      <div class="col-md-4">
+        <label for="inputCity" class="form-label bg-transparent mb-0">Confirm Password</label>
+        <input type="text" name="cnfPassword" class="form-control text-light" id="inputCity" required>
+      </div>
+      <div class="col-md-3 switches">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" name="is_active" role="switch" id="flexSwitchCheckChecked" checked>
+          <label class="form-check-label bg-transparent mb-0" for="flexSwitchCheckChecked">isActive</label>
+        </div>
+      </div>
+      <div class="col-md-3 switches">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" name="is_staff" role="switch" id="flexSwitchCheckDefault">
+          <label class="form-check-label bg-transparent mb-0" for="flexSwitchCheckDefault">Is Staff</label>
+        </div>
+      </div>
+      <div class="col-md-3 switches">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" name="is_superuser" role="switch" id="flexSwitchCheckDefault">
+          <label class="form-check-label bg-transparent mb-0" for="flexSwitchCheckDefault">Is Superuser</label>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="buttons">
+          <a type="button" href="{% url 'manageUsers' %}" class="btn btn-danger btn-sm cancel">Cancel</a>
+          <button type="submit" class="btn btn-primary btn-sm create">Submit</>
+        </div>
+      </div>
+    </form>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends 'adminPanel/mainPanel.html' %}
+
+{% block mainContent %}
+
+{% load static %}
+
+{% load custom_filters %}
+
+
+<style>
+    .topic-card {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #2d2d39;
+    }
+    .accordion-header{
+        background-color: #2d2d39;
+    }
+    .accordion-body{
+        background-color: #2d2d39;
+        padding-left: 60px;
+        padding-right: 160px;
+        padding-top: 5px;
+    }
+    .accordion-button {
+        background-color: #3f4156;
+        color: #fff;
+        border-radius: 8px;
+        
+    }
+    .accordion-item:first-of-type>.accordion-header .accordion-button{
+      color: #fff;
+      background-color: #3f4156;
+    }
+
+    .accordion-button:focus {
+        box-shadow: none;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: #495057;
+      }
+    
+    .accordion-button::after {
+      filter: invert(100%) brightness(200%);
+
+    }
+    .action-btns{
+        background-color: #3f4156;
+        border-radius: 8px;
+        padding: 11.5px;
+        width: 170px;
+    }
+    .accordion-item {
+        border: none;
+    }
+
+    .room-list {
+        margin-top: 10px;
+    }
+
+    .room-list li {
+        list-style-type: none;
+        background-color: #696d97a4;
+        padding: 8px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .room-list li .room-name {
+        padding-left: 10px;
+        font-size: 1rem;
+        color: #e5e5e5;
+
+    }
+
+    .no-room{
+        background-color: rgba(190, 46, 46, 0.551);
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+
+    .room-list li .room-actions button {
+        margin-left: 10px;
+    }
+</style>
+    <div class="above-table mb-3 px-3">
+        <div class="table-heading">
+            <i class="fa-solid fa-tags"></i>
+            <h1>Topics List</h1>    
+        </div>
+        <div class="data-filters">
+            <a href="?q={{ request.GET.q }}" class="btn filter py-2">
+                <i class="fa-solid fa-arrow-down-1-9"></i>
+            </a>
+            <a href="?order=name" class="btn filter py-2">
+                <i class="fa-solid fa-arrow-down-a-z"></i>
+            </a>
+        </div>
+    </div>
+
+<div class="container">
+  {% for topic in topics %}
+    <div class="accordion" id="topicsAccordion">
+        <!-- Repeat this block for each topic -->
+        <div class="accordion-item mb-2">
+            <h2 class="accordion-header d-flex align-items-center" id="headingOne">
+                <button class="accordion-button collapsed me-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ topic.id }}" aria-expanded="false" aria-controls="collapseOne">
+                    <span class="me-2">ID: {{ topic.id }}.</span>{{ topic.name }}
+                </button>
+                <div class="action-btns d-flex align-items-center">
+                    <!-- <button class="btn btn-primary btn-sm me-2">Update</button> -->
+                    <a type="button" class="btn btn-primary btn-sm me-2 update-button" data-id="{{ topic.id }}" data-name="{{ topic.name }}" data-bs-toggle="modal" data-bs-target="#exampleModal">Update</a>
+                    <!-- <a href="{% url 'deleteTopic' topic.id %}" class="btn btn-danger btn-sm">Delete</a> -->
+                    <a type="button" class="btn btn-sm btn-danger deleteBtn" data-url="{% url 'deleteTopic' topic.id %}" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+                </div>
+            </h2>
+            <div id="{{ topic.id }}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#topicsAccordion">
+                <div class="accordion-body pb-0">
+
+                {% if rooms|has_rooms_with_topic:topic %}
+                    <ul class="list-unstyled room-list">
+                        {% for room in rooms %}
+                            {% if room.topic.name == topic.name %}
+                                <li>
+                                    <span class="room-name">{{ room.name }}</span>
+                                    <div class="room-actions">
+                                        <a href="{% url 'room' room.id %}" target="_blank" class="btn btn-sm btn-success">View Room</a>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <ul class="list-unstyled room-list">
+                        <li>
+                            <span class="room-name no-room">No rooms available with this topic.</span>
+                        </li>
+                    </ul>
+                {% endif %}
+
+                </div>
+            </div>
+        </div>
+        <!-- End of topic block -->
+
+        <!-- End of topic block -->
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -30,7 +30,7 @@ Study Buddy is a web-based application designed to help students collaborate and
 ## **Installation**
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/priyankraychura/StudyBuddy-Django_Project
    ````
 
 ---
@@ -65,10 +65,10 @@ Study Buddy is a web-based application designed to help students collaborate and
 ## Contributors
 
 - **Priyank Raychura**  
-  [GitHub](#) | [priyankraychura@gmail.com](mailto:#)  
+  [GitHub](https://github.com/priyankraychura) | [Email](mailto:priyankraychura@gmail.com)  
 
 - **Urvisha Solanki**  
-  [GitHub](#) | [solankiurvisha40@gmail.com](mailto:#)  
+  [GitHub](https://github.com/Urvishasolanki) | [Email](mailto:solankiurvisha40@gmail.com)  
 
 ---
 
